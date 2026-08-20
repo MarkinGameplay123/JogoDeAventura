@@ -1,58 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STAR WARS — Aventura</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars: A Fuga do Padawan</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="hud-top">
-    <div class="hud-panel">
-      <div class="hud-label">INTEGRIDADE BIOLÓGICA</div>
-      <div class="bar-container">
-        <div class="bar-fill hp" id="hpBar" style="width:100%"></div>
-        <div class="bar-text" id="hpText">100 / 100</div>
-      </div>
+    <div class="game-container">
+        <h1>STAR WARS</h1>
+        <h2>A Fuga do Padawan</h2>
+        <div id="story-text" class="text-box"></div>
+        <div id="choices" class="choices-container"></div>
     </div>
-    <div class="center-title">
-      <h1>STAR WARS</h1>
-      <div class="sub">AVENTURA • HUD TÁTICO</div>
-    </div>
-    <div class="hud-panel">
-      <div class="hud-label">NÍVEL DE FORÇA</div>
-      <div class="bar-container">
-        <div class="bar-fill force" id="forceBar" style="width:0%"></div>
-        <div class="bar-text" id="forceText">0</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hud-mid">
-    <div class="loc-box">LOCAL: <span id="location">Tatooine</span></div>
-    <div class="rank-box">STATUS: <span id="rank">Farmboy</span></div>
-  </div>
-
-  <div class="container" id="game">
-    <div class="lightsaber"></div>
-    <div id="story">Inicializando sistemas...</div>
-    <div id="choices"></div>
-    <div id="restart">
-      <button onclick="startGame()">Reiniciar missão (você morreu de novo)</button>
-    </div>
-  </div>
-
-  <div class="hud-bottom">
-    <div class="radar">
-      <div class="blip" style="top:30%;left:55%"></div>
-      <div class="blip" style="top:60%;left:35%;animation-delay:0.5s"></div>
-    </div>
-    <div class="log-box" id="log">
-      <div class="entry">[SISTEMA] HUD tático online.</div>
-    </div>
-  </div>
-
-  <footer>Feito com ódio. Que a Força te ignore.</footer>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
