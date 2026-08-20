@@ -1,433 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Star Wars - Aventura Irritada</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: #000;
-    color: #ffe81f;
-    font-family: 'Share Tech Mono', monospace;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image:
-      radial-gradient(ellipse at 20% 30%, #111 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 70%, #0a0a1a 0%, transparent 40%),
-      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><circle cx="15" cy="20" r="1" fill="%23fff" opacity="0.4"/><circle cx="60" cy="40" r="0.7" fill="%23fff" opacity="0.5"/><circle cx="90" cy="80" r="1.1" fill="%23fff" opacity="0.3"/><circle cx="30" cy="90" r="0.5" fill="%23fff" opacity="0.6"/><circle cx="100" cy="15" r="0.8" fill="%23fff" opacity="0.4"/></svg>');
-  }
-
-  .container {
-    max-width: 740px;
-    width: 96%;
-    background: rgba(8, 8, 18, 0.95);
-    border: 2px solid #ffe81f;
-    border-radius: 10px;
-    padding: 28px 32px;
-    box-shadow: 0 0 40px rgba(255, 232, 31, 0.25), inset 0 0 30px rgba(255, 232, 31, 0.03);
-    position: relative;
-  }
-
-  h1 {
-    font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    font-size: 2.4rem;
-    letter-spacing: 4px;
-    text-shadow: 0 0 12px #ffe81f, 0 0 25px #ffe81f;
-    margin-bottom: 4px;
-  }
-
-  .subtitle {
-    text-align: center;
-    color: #888;
-    font-size: 0.85rem;
-    margin-bottom: 22px;
-  }
-
-  #status {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    color: #0f0;
-    border-bottom: 1px dashed #333;
-    padding-bottom: 12px;
-    margin-bottom: 18px;
-  }
-
-  #status span { color: #0f0; font-weight: bold; }
-
-  #story {
-    background: rgba(0,0,0,0.65);
-    border: 1px solid #333;
-    padding: 22px;
-    min-height: 190px;
-    line-height: 1.65;
-    font-size: 1.05rem;
-    white-space: pre-wrap;
-    margin-bottom: 20px;
-  }
-
-  #choices {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-  }
-
-  button {
-    background: linear-gradient(180deg, #151528, #0a0a14);
-    color: #ffe81f;
-    border: 1px solid #ffe81f;
-    padding: 13px 18px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1rem;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.18s;
-  }
-
-  button:hover {
-    background: #ffe81f;
-    color: #000;
-    box-shadow: 0 0 18px #ffe81f;
-  }
-
-  button:active { transform: scale(0.98); }
-
-  #restart {
-    display: none;
-    margin-top: 22px;
-    text-align: center;
-  }
-
-  #restart button {
-    background: #1a0000;
-    border-color: #f44;
-    color: #f44;
-  }
-
-  #restart button:hover {
-    background: #f44;
-    color: #000;
-    box-shadow: 0 0 18px #f44;
-  }
-
-  .death #story { border-color: #f44; color: #f88; }
-  .win #story { border-color: #0f0; color: #8f8; }
-
-  .lightsaber {
-    position: absolute;
-    top: -18px;
-    right: 28px;
-    width: 7px;
-    height: 42px;
-    background: linear-gradient(to bottom, #0ff, #08f);
-    border-radius: 4px;
-    box-shadow: 0 0 14px #0ff;
-    animation: hum 1.4s infinite alternate;
-  }
-
-  @keyframes hum {
-    from { box-shadow: 0 0 10px #0ff; }
-    to { box-shadow: 0 0 28px #0ff, 0 0 45px #08f; }
-  }
-
-  footer {
-    margin-top: 18px;
-    text-align: center;
-    color: #444;
-    font-size: 0.72rem;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STAR WARS — Aventura</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container" id="game">
-  <div class="lightsaber"></div>
-  <h1>STAR WARS</h1>
-  <div class="subtitle">Aventura Texto • HTML + CSS + JS • Feito com ódio</div>
-
-  <div id="status">
-    <div>HP: <span id="hp">100</span></div>
-    <div>Força: <span id="force">0</span></div>
-    <div>Local: <span id="location">Tatooine</span></div>
+  <div class="hud-top">
+    <div class="hud-panel">
+      <div class="hud-label">INTEGRIDADE BIOLÓGICA</div>
+      <div class="bar-container">
+        <div class="bar-fill hp" id="hpBar" style="width:100%"></div>
+        <div class="bar-text" id="hpText">100 / 100</div>
+      </div>
+    </div>
+    <div class="center-title">
+      <h1>STAR WARS</h1>
+      <div class="sub">AVENTURA • HUD TÁTICO</div>
+    </div>
+    <div class="hud-panel">
+      <div class="hud-label">NÍVEL DE FORÇA</div>
+      <div class="bar-container">
+        <div class="bar-fill force" id="forceBar" style="width:0%"></div>
+        <div class="bar-text" id="forceText">0</div>
+      </div>
+    </div>
   </div>
 
-  <div id="story">Carregando essa merda...</div>
-  <div id="choices"></div>
-
-  <div id="restart">
-    <button onclick="startGame()">Jogar de novo (porque você morreu, óbvio)</button>
+  <div class="hud-mid">
+    <div class="loc-box">LOCAL: <span id="location">Tatooine</span></div>
+    <div class="rank-box">STATUS: <span id="rank">Farmboy</span></div>
   </div>
-</div>
 
-<footer>Que a Força te ignore. Não peço mais nada.</footer>
+  <div class="container" id="game">
+    <div class="lightsaber"></div>
+    <div id="story">Inicializando sistemas...</div>
+    <div id="choices"></div>
+    <div id="restart">
+      <button onclick="startGame()">Reiniciar missão (você morreu de novo)</button>
+    </div>
+  </div>
 
-<script>
-const story = {
-  start: {
-    text: "Você acorda no deserto de Tatooine. Dois sóis queimando a cara. Você é mais um farmboy com delírios de grandeza.\n\nUm droide estranho apita desesperado. Naves Imperiais descem no horizonte.",
-    choices: [
-      { text: "Investigar o droide", next: "droide" },
-      { text: "Correr pro porão da fazenda", next: "porao" },
-      { text: "Gritar 'EU SOU O ESCOLHIDO!'", next: "escolhido" }
-    ],
-    location: "Tatooine"
-  },
+  <div class="hud-bottom">
+    <div class="radar">
+      <div class="blip" style="top:30%;left:55%"></div>
+      <div class="blip" style="top:60%;left:35%;animation-delay:0.5s"></div>
+    </div>
+    <div class="log-box" id="log">
+      <div class="entry">[SISTEMA] HUD tático online.</div>
+    </div>
+  </div>
 
-  droide: {
-    text: "É um R2-D2. Ele projeta o holograma da Princesa Leia:\n\n\"Ajude-me, Obi-Wan Kenobi. Você é minha única esperança.\"\n\nObi-Wan? Aquele velho maluco das cavernas?",
-    choices: [
-      { text: "Ir atrás do Obi-Wan", next: "obiwan" },
-      { text: "Vender o droide pro Jabba", next: "jabba" },
-      { text: "Ignorar e voltar a colher umidade", next: "morte1" }
-    ],
-    location: "Tatooine"
-  },
-
-  porao: {
-    text: "Você se esconde. Stormtroopers passam por cima.\n\n\"Olha só, mais um desertor. Queima a fazenda.\"\n\nGritos dos seus tios. Tarde demais.",
-    choices: [
-      { text: "Sair e confrontar os troopers", next: "luta_troopers" },
-      { text: "Ficar escondido como covarde", next: "morte2" }
-    ],
-    location: "Fazenda Lars"
-  },
-
-  escolhido: {
-    text: "Você grita. Os Stormtroopers riem.\n\n\"Olha o louco.\"\n\nTiros. Você vira cinzas com pretensão de protagonista.",
-    choices: [],
-    death: true,
-    location: "Tatooine"
-  },
-
-  obiwan: {
-    text: "Obi-Wan te olha e suspira fundo.\n\n\"Ah, mais um. Seu pai era Jedi. Toma esse sabre e para de reclamar.\"\n\nSabre azul entregue. +20 Força.",
-    choices: [
-      { text: "Aceitar o destino e ir pra Mos Eisley", next: "moseisley" },
-      { text: "Perguntar se pode ser Sith", next: "sith_path" }
-    ],
-    force: 20,
-    location: "Cavernas"
-  },
-
-  jabba: {
-    text: "Jabba te olha com nojo. Um guarda traduz:\n\n\"Ele gostou. Você agora é escravo. Vai dançar.\"\n\nFim da carreira de herói.",
-    choices: [],
-    death: true,
-    location: "Palácio de Jabba"
-  },
-
-  morte1: {
-    text: "Você volta a colher umidade. Stormtroopers chegam, matam seus tios e te capturam.\n\nResto da vida limpando banheiro de Star Destroyer.",
-    choices: [],
-    death: true,
-    location: "Fazenda Lars"
-  },
-
-  morte2: {
-    text: "Você fica escondido. A fazenda queima. Você morre de fumaça e vergonha.\n\nNem precisaram te matar.",
-    choices: [],
-    death: true,
-    location: "Fazenda Lars"
-  },
-
-  luta_troopers: {
-    text: "Você sai gritando com uma pá. Três Stormtroopers.\n\nEles te transformam em queijo suíço.",
-    choices: [],
-    death: true,
-    location: "Fazenda Lars"
-  },
-
-  moseisley: {
-    text: "Mos Eisley. Cheira a álcool barato e desespero.\n\nHan Solo discute com um caçador de recompensas na cantina.",
-    choices: [
-      { text: "Contratar o Han", next: "falcon" },
-      { text: "Tentar roubar a Millennium Falcon", next: "roubar" },
-      { text: "Beber até cair", next: "bebado" }
-    ],
-    location: "Mos Eisley"
-  },
-
-  sith_path: {
-    text: "Obi-Wan te olha com nojo absoluto.\n\n\"Sério? Quer ser Sith? Vai lá então.\"\n\nO Lado Negro te chama. +30 Força (escura).",
-    choices: [
-      { text: "Ir atrás de Vader", next: "vader" },
-      { text: "Matar o Obi-Wan agora", next: "matar_obi" }
-    ],
-    force: 30,
-    location: "Cavernas"
-  },
-
-  falcon: {
-    text: "Han: \"15.000 créditos. Sem pechincha.\"\n\nVocê não tem nada. Obi-Wan resolve com \"a Força\".\n\nHan resmunga mas aceita. Decolam.",
-    choices: [
-      { text: "Seguir pro espaço", next: "espaco" }
-    ],
-    location: "Millennium Falcon"
-  },
-
-  roubar: {
-    text: "Você tenta roubar a Falcon. Chewbacca te pega pelo pescoço e te joga no chão.\n\nHan: \"Boa tentativa, moleque.\"\n\nStormtroopers te acham depois. Fim.",
-    choices: [],
-    death: true,
-    location: "Mos Eisley"
-  },
-
-  bebado: {
-    text: "Você bebe até esquecer o próprio nome. Acorda num beco sem calça e sem droide.\n\nUm trooper te leva preso. Carreira encerrada.",
-    choices: [],
-    death: true,
-    location: "Mos Eisley"
-  },
-
-  espaco: {
-    text: "Hiperespaço. Tudo azul e bonito... até o computador gritar que Alderaan não existe mais.\n\nA Estrela da Morte te puxa. Ótimo.",
-    choices: [
-      { text: "Se esconder nos porões", next: "estrela" },
-      { text: "Tentar negociar com Vader", next: "negociar" }
-    ],
-    location: "Espaço"
-  },
-
-  vader: {
-    text: "Vader te encara com aquela voz de aspirador de pó:\n\n\"Interessante. Quer poder? Então prove.\"",
-    choices: [
-      { text: "Lutar contra Vader", next: "luta_vader" },
-      { text: "Se ajoelhar e pedir pra ser aprendiz", next: "aprendiz" }
-    ],
-    location: "Estrela da Morte"
-  },
-
-  matar_obi: {
-    text: "Você tenta atacar Obi-Wan. Ele desvia, suspira e te corta ao meio.\n\n\"Eu te avisei.\"",
-    choices: [],
-    death: true,
-    location: "Cavernas"
-  },
-
-  estrela: {
-    text: "Vocês encontram a Princesa Leia numa cela.\n\n\"Vocês são o resgate? Que decepção.\"\n\nAgora tem que escapar.",
-    choices: [
-      { text: "Lutar até o hangar", next: "fuga" },
-      { text: "Usar a Força pra abrir caminho", next: "forca_fuga" }
-    ],
-    location: "Estrela da Morte"
-  },
-
-  negociar: {
-    text: "Você tenta negociar. Vader te força a joelho:\n\n\"Eu sou seu pai.\"\n\nVocê tem um ataque de nervos e desmaia. Acorda num tanque de Bacta. Prisioneiro eterno.",
-    choices: [],
-    death: true,
-    location: "Estrela da Morte"
-  },
-
-  luta_vader: {
-    text: "Você luta. Vader é ridiculamente superior.\n\nEle corta sua mão e te joga no abismo.\n\n\"Incompleto.\"",
-    choices: [],
-    death: true,
-    location: "Estrela da Morte"
-  },
-
-  aprendiz: {
-    text: "Você se ajoelha. Vader aceita.\n\n\"Bom. Agora limpa o chão da ponte de comando por 10 anos.\"\n\nVocê virou o faxineiro do Império. Parabéns pelo Lado Negro.",
-    choices: [],
-    death: true,
-    location: "Estrela da Morte"
-  },
-
-  fuga: {
-    text: "Vocês correm atirando. Stormtroopers caem porque miram feito cegos.\n\nChegam na Falcon. Decolam. A Estrela da Morte explode (não pergunte como).\n\nVocê é herói. Medalha. Final feliz... dessa vez.",
-    choices: [],
-    win: true,
-    location: "Millennium Falcon"
-  },
-
-  forca_fuga: {
-    text: "Você tenta usar a Força...",
-    choices: [],
-    special: "checkForce",
-    location: "Estrela da Morte"
-  }
-};
-
-let hp = 100;
-let force = 0;
-let location = "Tatooine";
-
-function updateStatus() {
-  document.getElementById("hp").textContent = hp;
-  document.getElementById("force").textContent = force;
-  document.getElementById("location").textContent = location;
-}
-
-function showScene(key) {
-  const scene = story[key];
-  if (!scene) {
-    document.getElementById("story").textContent = "Cena inexistente. O programador é um incompetente.";
-    return;
-  }
-
-  const game = document.getElementById("game");
-  game.classList.remove("death", "win");
-
-  location = scene.location || location;
-  if (scene.force) force += scene.force;
-  if (scene.hp) hp += scene.hp;
-  updateStatus();
-
-  document.getElementById("story").textContent = scene.text;
-  const choicesDiv = document.getElementById("choices");
-  choicesDiv.innerHTML = "";
-  document.getElementById("restart").style.display = "none";
-
-  if (scene.death) {
-    game.classList.add("death");
-    document.getElementById("story").textContent += "\n\n*** VOCÊ MORREU. QUE SURPRESA. ***";
-    document.getElementById("restart").style.display = "block";
-    return;
-  }
-
-  if (scene.win) {
-    game.classList.add("win");
-    document.getElementById("story").textContent += "\n\n*** VOCÊ VENCEU. ACHO QUE. ***";
-    document.getElementById("restart").style.display = "block";
-    return;
-  }
-
-  if (scene.special === "checkForce") {
-    if (force >= 30) {
-      game.classList.add("win");
-      document.getElementById("story").textContent += "\n\nSua Força é suficiente. Tropas caem. Vocês escapam. A Estrela da Morte explode.\n\n*** VITÓRIA (pelo Lado Negro ou o que for) ***";
-    } else {
-      game.classList.add("death");
-      document.getElementById("story").textContent += "\n\nSua Força é fraca demais. Um trooper te atira na cara.\n\n*** VOCÊ MORREU. ***";
-    }
-    document.getElementById("restart").style.display = "block";
-    return;
-  }
-
-  scene.choices.forEach(c => {
-    const btn = document.createElement("button");
-    btn.textContent = c.text;
-    btn.onclick = () => showScene(c.next);
-    choicesDiv.appendChild(btn);
-  });
-}
-
-function startGame() {
-  hp = 100;
-  force = 0;
-  location = "Tatooine";
-  updateStatus();
-  showScene("start");
-}
-
-startGame();
-</script>
+  <footer>Feito com ódio. Que a Força te ignore.</footer>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,296 +1,235 @@
-// StarWarsAventura.java
-// Compila: javac StarWarsAventura.java
-// Roda:   java StarWarsAventura
-// Não enche o saco pedindo mais versão.
+const story = {
+  start: {
+    text: "Você acorda no deserto de Tatooine. Dois sóis queimando a cara. Você é mais um farmboy com delírios de grandeza.\n\nUm droide estranho apita desesperado. Naves Imperiais descem no horizonte.",
+    choices: [
+      { text: "Investigar o droide", next: "droide" },
+      { text: "Correr pro porão da fazenda", next: "porao" },
+      { text: "Gritar 'EU SOU O ESCOLHIDO!'", next: "escolhido" }
+    ],
+    location: "Tatooine",
+    rank: "Farmboy"
+  },
+  droide: {
+    text: "É um R2-D2. Ele projeta o holograma da Princesa Leia:\n\n\"Ajude-me, Obi-Wan Kenobi. Você é minha única esperança.\"\n\nObi-Wan? Aquele velho maluco das cavernas?",
+    choices: [
+      { text: "Ir atrás do Obi-Wan", next: "obiwan" },
+      { text: "Vender o droide pro Jabba", next: "jabba" },
+      { text: "Ignorar e voltar a colher umidade", next: "morte1" }
+    ],
+    location: "Tatooine",
+    rank: "Farmboy"
+  },
+  porao: {
+    text: "Você se esconde. Stormtroopers passam por cima.\n\n\"Olha só, mais um desertor. Queima a fazenda.\"\n\nGritos dos seus tios. Tarde demais.",
+    choices: [
+      { text: "Sair e confrontar os troopers", next: "luta_troopers" },
+      { text: "Ficar escondido como covarde", next: "morte2" }
+    ],
+    location: "Fazenda Lars",
+    rank: "Covarde"
+  },
+  escolhido: {
+    text: "Você grita. Os Stormtroopers riem.\n\n\"Olha o louco.\"\n\nTiros. Você vira cinzas com pretensão de protagonista.",
+    choices: [], death: true, location: "Tatooine", rank: "Cinza"
+  },
+  obiwan: {
+    text: "Obi-Wan te olha e suspira fundo.\n\n\"Ah, mais um. Seu pai era Jedi. Toma esse sabre e para de reclamar.\"\n\nSabre azul entregue. +20 Força.",
+    choices: [
+      { text: "Aceitar o destino e ir pra Mos Eisley", next: "moseisley" },
+      { text: "Perguntar se pode ser Sith", next: "sith_path" }
+    ],
+    force: 20, location: "Cavernas", rank: "Padawan"
+  },
+  jabba: {
+    text: "Jabba te olha com nojo. Um guarda traduz:\n\n\"Ele gostou. Você agora é escravo. Vai dançar.\"\n\nFim da carreira de herói.",
+    choices: [], death: true, location: "Palácio de Jabba", rank: "Escravo"
+  },
+  morte1: {
+    text: "Você volta a colher umidade. Stormtroopers chegam, matam seus tios e te capturam.\n\nResto da vida limpando banheiro de Star Destroyer.",
+    choices: [], death: true, location: "Fazenda Lars", rank: "Prisioneiro"
+  },
+  morte2: {
+    text: "Você fica escondido. A fazenda queima. Você morre de fumaça e vergonha.\n\nNem precisaram te matar.",
+    choices: [], death: true, location: "Fazenda Lars", rank: "Cinza"
+  },
+  luta_troopers: {
+    text: "Você sai gritando com uma pá. Três Stormtroopers.\n\nEles te transformam em queijo suíço.",
+    choices: [], death: true, location: "Fazenda Lars", rank: "Alvo fácil"
+  },
+  moseisley: {
+    text: "Mos Eisley. Cheira a álcool barato e desespero.\n\nHan Solo discute com um caçador de recompensas na cantina.",
+    choices: [
+      { text: "Contratar o Han", next: "falcon" },
+      { text: "Tentar roubar a Millennium Falcon", next: "roubar" },
+      { text: "Beber até cair", next: "bebado" }
+    ],
+    location: "Mos Eisley", rank: "Padawan"
+  },
+  sith_path: {
+    text: "Obi-Wan te olha com nojo absoluto.\n\n\"Sério? Quer ser Sith? Vai lá então.\"\n\nO Lado Negro te chama. +30 Força (escura).",
+    choices: [
+      { text: "Ir atrás de Vader", next: "vader" },
+      { text: "Matar o Obi-Wan agora", next: "matar_obi" }
+    ],
+    force: 30, location: "Cavernas", rank: "Aspirante Sith"
+  },
+  falcon: {
+    text: "Han: \"15.000 créditos. Sem pechincha.\"\n\nVocê não tem nada. Obi-Wan resolve com \"a Força\".\n\nHan resmunga mas aceita. Decolam.",
+    choices: [{ text: "Seguir pro espaço", next: "espaco" }],
+    location: "Millennium Falcon", rank: "Passageiro"
+  },
+  roubar: {
+    text: "Você tenta roubar a Falcon. Chewbacca te pega pelo pescoço e te joga no chão.\n\nHan: \"Boa tentativa, moleque.\"\n\nStormtroopers te acham depois. Fim.",
+    choices: [], death: true, location: "Mos Eisley", rank: "Ladrão fracassado"
+  },
+  bebado: {
+    text: "Você bebe até esquecer o próprio nome. Acorda num beco sem calça e sem droide.\n\nUm trooper te leva preso. Carreira encerrada.",
+    choices: [], death: true, location: "Mos Eisley", rank: "Bêbado"
+  },
+  espaco: {
+    text: "Hiperespaço. Tudo azul e bonito... até o computador gritar que Alderaan não existe mais.\n\nA Estrela da Morte te puxa. Ótimo.",
+    choices: [
+      { text: "Se esconder nos porões", next: "estrela" },
+      { text: "Tentar negociar com Vader", next: "negociar" }
+    ],
+    location: "Espaço", rank: "Passageiro"
+  },
+  vader: {
+    text: "Vader te encara com aquela voz de aspirador de pó:\n\n\"Interessante. Quer poder? Então prove.\"",
+    choices: [
+      { text: "Lutar contra Vader", next: "luta_vader" },
+      { text: "Se ajoelhar e pedir pra ser aprendiz", next: "aprendiz" }
+    ],
+    location: "Estrela da Morte", rank: "Aspirante Sith"
+  },
+  matar_obi: {
+    text: "Você tenta atacar Obi-Wan. Ele desvia, suspira e te corta ao meio.\n\n\"Eu te avisei.\"",
+    choices: [], death: true, location: "Cavernas", rank: "Cortado"
+  },
+  estrela: {
+    text: "Vocês encontram a Princesa Leia numa cela.\n\n\"Vocês são o resgate? Que decepção.\"\n\nAgora tem que escapar.",
+    choices: [
+      { text: "Lutar até o hangar", next: "fuga" },
+      { text: "Usar a Força pra abrir caminho", next: "forca_fuga" }
+    ],
+    location: "Estrela da Morte", rank: "Resgatador"
+  },
+  negociar: {
+    text: "Você tenta negociar. Vader te força a joelho:\n\n\"Eu sou seu pai.\"\n\nVocê tem um ataque de nervos e desmaia. Acorda num tanque de Bacta. Prisioneiro eterno.",
+    choices: [], death: true, location: "Estrela da Morte", rank: "Prisioneiro"
+  },
+  luta_vader: {
+    text: "Você luta. Vader é ridiculamente superior.\n\nEle corta sua mão e te joga no abismo.\n\n\"Incompleto.\"",
+    choices: [], death: true, location: "Estrela da Morte", rank: "Manco"
+  },
+  aprendiz: {
+    text: "Você se ajoelha. Vader aceita.\n\n\"Bom. Agora limpa o chão da ponte de comando por 10 anos.\"\n\nVocê virou o faxineiro do Império. Parabéns pelo Lado Negro.",
+    choices: [], death: true, location: "Estrela da Morte", rank: "Faxineiro Imperial"
+  },
+  fuga: {
+    text: "Vocês correm atirando. Stormtroopers caem porque miram feito cegos.\n\nChegam na Falcon. Decolam. A Estrela da Morte explode (não pergunte como).\n\nVocê é herói. Medalha. Final feliz... dessa vez.",
+    choices: [], win: true, location: "Millennium Falcon", rank: "Herói da Aliança"
+  },
+  forca_fuga: {
+    text: "Você tenta usar a Força...",
+    choices: [], special: "checkForce", location: "Estrela da Morte", rank: "Usuário da Força"
+  }
+};
 
-import java.util.*;
+let hp = 100;
+let force = 0;
+let location = "Tatooine";
+let rank = "Farmboy";
 
-public class StarWarsAventura {
-
-    static int hp = 100;
-    static int force = 0;
-    static String location = "Tatooine";
-    static boolean gameOver = false;
-    static Scanner sc = new Scanner(System.in);
-
-    static class Scene {
-        String text;
-        List<Choice> choices;
-        boolean death;
-        boolean win;
-        String special;
-        int forceGain;
-        String loc;
-
-        Scene(String text, List<Choice> choices, boolean death, boolean win, String special, int forceGain, String loc) {
-            this.text = text;
-            this.choices = choices;
-            this.death = death;
-            this.win = win;
-            this.special = special;
-            this.forceGain = forceGain;
-            this.loc = loc;
-        }
-    }
-
-    static class Choice {
-        String text;
-        String next;
-        Choice(String text, String next) {
-            this.text = text;
-            this.next = next;
-        }
-    }
-
-    static Map<String, Scene> story = new HashMap<>();
-
-    static void buildStory() {
-        story.put("start", new Scene(
-            "Você acorda no deserto de Tatooine. Dois sóis queimando a cara. Você é mais um farmboy com delírios de grandeza.\n\nUm droide estranho apita desesperado. Naves Imperiais descem no horizonte.",
-            Arrays.asList(
-                new Choice("Investigar o droide", "droide"),
-                new Choice("Correr pro porão da fazenda", "porao"),
-                new Choice("Gritar 'EU SOU O ESCOLHIDO!'", "escolhido")
-            ), false, false, null, 0, "Tatooine"
-        ));
-
-        story.put("droide", new Scene(
-            "É um R2-D2. Ele projeta o holograma da Princesa Leia:\n\n\"Ajude-me, Obi-Wan Kenobi. Você é minha única esperança.\"\n\nObi-Wan? Aquele velho maluco das cavernas?",
-            Arrays.asList(
-                new Choice("Ir atrás do Obi-Wan", "obiwan"),
-                new Choice("Vender o droide pro Jabba", "jabba"),
-                new Choice("Ignorar e voltar a colher umidade", "morte1")
-            ), false, false, null, 0, "Tatooine"
-        ));
-
-        story.put("porao", new Scene(
-            "Você se esconde. Stormtroopers passam por cima.\n\n\"Olha só, mais um desertor. Queima a fazenda.\"\n\nGritos dos seus tios. Tarde demais.",
-            Arrays.asList(
-                new Choice("Sair e confrontar os troopers", "luta_troopers"),
-                new Choice("Ficar escondido como covarde", "morte2")
-            ), false, false, null, 0, "Fazenda Lars"
-        ));
-
-        story.put("escolhido", new Scene(
-            "Você grita. Os Stormtroopers riem.\n\n\"Olha o louco.\"\n\nTiros. Você vira cinzas com pretensão de protagonista.",
-            Collections.emptyList(), true, false, null, 0, "Tatooine"
-        ));
-
-        story.put("obiwan", new Scene(
-            "Obi-Wan te olha e suspira fundo.\n\n\"Ah, mais um. Seu pai era Jedi. Toma esse sabre e para de reclamar.\"\n\nSabre azul entregue. +20 Força.",
-            Arrays.asList(
-                new Choice("Aceitar o destino e ir pra Mos Eisley", "moseisley"),
-                new Choice("Perguntar se pode ser Sith", "sith_path")
-            ), false, false, null, 20, "Cavernas"
-        ));
-
-        story.put("jabba", new Scene(
-            "Jabba te olha com nojo. Um guarda traduz:\n\n\"Ele gostou. Você agora é escravo. Vai dançar.\"\n\nFim da carreira de herói.",
-            Collections.emptyList(), true, false, null, 0, "Palácio de Jabba"
-        ));
-
-        story.put("morte1", new Scene(
-            "Você volta a colher umidade. Stormtroopers chegam, matam seus tios e te capturam.\n\nResto da vida limpando banheiro de Star Destroyer.",
-            Collections.emptyList(), true, false, null, 0, "Fazenda Lars"
-        ));
-
-        story.put("morte2", new Scene(
-            "Você fica escondido. A fazenda queima. Você morre de fumaça e vergonha.\n\nNem precisaram te matar.",
-            Collections.emptyList(), true, false, null, 0, "Fazenda Lars"
-        ));
-
-        story.put("luta_troopers", new Scene(
-            "Você sai gritando com uma pá. Três Stormtroopers.\n\nEles te transformam em queijo suíço.",
-            Collections.emptyList(), true, false, null, 0, "Fazenda Lars"
-        ));
-
-        story.put("moseisley", new Scene(
-            "Mos Eisley. Cheira a álcool barato e desespero.\n\nHan Solo discute com um caçador de recompensas na cantina.",
-            Arrays.asList(
-                new Choice("Contratar o Han", "falcon"),
-                new Choice("Tentar roubar a Millennium Falcon", "roubar"),
-                new Choice("Beber até cair", "bebado")
-            ), false, false, null, 0, "Mos Eisley"
-        ));
-
-        story.put("sith_path", new Scene(
-            "Obi-Wan te olha com nojo absoluto.\n\n\"Sério? Quer ser Sith? Vai lá então.\"\n\nO Lado Negro te chama. +30 Força (escura).",
-            Arrays.asList(
-                new Choice("Ir atrás de Vader", "vader"),
-                new Choice("Matar o Obi-Wan agora", "matar_obi")
-            ), false, false, null, 30, "Cavernas"
-        ));
-
-        story.put("falcon", new Scene(
-            "Han: \"15.000 créditos. Sem pechincha.\"\n\nVocê não tem nada. Obi-Wan resolve com \"a Força\".\n\nHan resmunga mas aceita. Decolam.",
-            Arrays.asList(
-                new Choice("Seguir pro espaço", "espaco")
-            ), false, false, null, 0, "Millennium Falcon"
-        ));
-
-        story.put("roubar", new Scene(
-            "Você tenta roubar a Falcon. Chewbacca te pega pelo pescoço e te joga no chão.\n\nHan: \"Boa tentativa, moleque.\"\n\nStormtroopers te acham depois. Fim.",
-            Collections.emptyList(), true, false, null, 0, "Mos Eisley"
-        ));
-
-        story.put("bebado", new Scene(
-            "Você bebe até esquecer o próprio nome. Acorda num beco sem calça e sem droide.\n\nUm trooper te leva preso. Carreira encerrada.",
-            Collections.emptyList(), true, false, null, 0, "Mos Eisley"
-        ));
-
-        story.put("espaco", new Scene(
-            "Hiperespaço. Tudo azul e bonito... até o computador gritar que Alderaan não existe mais.\n\nA Estrela da Morte te puxa. Ótimo.",
-            Arrays.asList(
-                new Choice("Se esconder nos porões", "estrela"),
-                new Choice("Tentar negociar com Vader", "negociar")
-            ), false, false, null, 0, "Espaço"
-        ));
-
-        story.put("vader", new Scene(
-            "Vader te encara com aquela voz de aspirador de pó:\n\n\"Interessante. Quer poder? Então prove.\"",
-            Arrays.asList(
-                new Choice("Lutar contra Vader", "luta_vader"),
-                new Choice("Se ajoelhar e pedir pra ser aprendiz", "aprendiz")
-            ), false, false, null, 0, "Estrela da Morte"
-        ));
-
-        story.put("matar_obi", new Scene(
-            "Você tenta atacar Obi-Wan. Ele desvia, suspira e te corta ao meio.\n\n\"Eu te avisei.\"",
-            Collections.emptyList(), true, false, null, 0, "Cavernas"
-        ));
-
-        story.put("estrela", new Scene(
-            "Vocês encontram a Princesa Leia numa cela.\n\n\"Vocês são o resgate? Que decepção.\"\n\nAgora tem que escapar.",
-            Arrays.asList(
-                new Choice("Lutar até o hangar", "fuga"),
-                new Choice("Usar a Força pra abrir caminho", "forca_fuga")
-            ), false, false, null, 0, "Estrela da Morte"
-        ));
-
-        story.put("negociar", new Scene(
-            "Você tenta negociar. Vader te força a joelho:\n\n\"Eu sou seu pai.\"\n\nVocê tem um ataque de nervos e desmaia. Acorda num tanque de Bacta. Prisioneiro eterno.",
-            Collections.emptyList(), true, false, null, 0, "Estrela da Morte"
-        ));
-
-        story.put("luta_vader", new Scene(
-            "Você luta. Vader é ridiculamente superior.\n\nEle corta sua mão e te joga no abismo.\n\n\"Incompleto.\"",
-            Collections.emptyList(), true, false, null, 0, "Estrela da Morte"
-        ));
-
-        story.put("aprendiz", new Scene(
-            "Você se ajoelha. Vader aceita.\n\n\"Bom. Agora limpa o chão da ponte de comando por 10 anos.\"\n\nVocê virou o faxineiro do Império. Parabéns pelo Lado Negro.",
-            Collections.emptyList(), true, false, null, 0, "Estrela da Morte"
-        ));
-
-        story.put("fuga", new Scene(
-            "Vocês correm atirando. Stormtroopers caem porque miram feito cegos.\n\nChegam na Falcon. Decolam. A Estrela da Morte explode (não pergunte como).\n\nVocê é herói. Medalha. Final feliz... dessa vez.",
-            Collections.emptyList(), false, true, null, 0, "Millennium Falcon"
-        ));
-
-        story.put("forca_fuga", new Scene(
-            "Você tenta usar a Força...",
-            Collections.emptyList(), false, false, "checkForce", 0, "Estrela da Morte"
-        ));
-    }
-
-    static void printStatus() {
-        System.out.println("\n========================================");
-        System.out.println("HP: " + hp + "  |  Força: " + force + "  |  Local: " + location);
-        System.out.println("========================================");
-    }
-
-    static void showScene(String key) {
-        if (gameOver) return;
-
-        Scene scene = story.get(key);
-        if (scene == null) {
-            System.out.println("\nCena inexistente. O programador é um incompetente.");
-            return;
-        }
-
-        location = scene.loc != null ? scene.loc : location;
-        force += scene.forceGain;
-        printStatus();
-        System.out.println("\n" + scene.text);
-
-        if (scene.death) {
-            System.out.println("\n*** VOCÊ MORREU. QUE SURPRESA. ***");
-            gameOver = true;
-            askRestart();
-            return;
-        }
-
-        if (scene.win) {
-            System.out.println("\n*** VOCÊ VENCEU. ACHO QUE. ***");
-            gameOver = true;
-            askRestart();
-            return;
-        }
-
-        if ("checkForce".equals(scene.special)) {
-            if (force >= 30) {
-                System.out.println("\nSua Força é suficiente. Tropas caem. Vocês escapam. A Estrela da Morte explode.");
-                System.out.println("\n*** VITÓRIA (pelo Lado Negro ou o que for) ***");
-            } else {
-                System.out.println("\nSua Força é fraca demais. Um trooper te atira na cara.");
-                System.out.println("\n*** VOCÊ MORREU. ***");
-            }
-            gameOver = true;
-            askRestart();
-            return;
-        }
-
-        if (scene.choices.isEmpty()) {
-            gameOver = true;
-            askRestart();
-            return;
-        }
-
-        System.out.println("\nO que você faz?");
-        for (int i = 0; i < scene.choices.size(); i++) {
-            System.out.println("  " + (i + 1) + ". " + scene.choices.get(i).text);
-        }
-
-        System.out.print("\nEscolha (número): ");
-        int choice;
-        try {
-            choice = Integer.parseInt(sc.nextLine().trim()) - 1;
-        } catch (Exception e) {
-            System.out.println("Opção inválida, seu gênio. Tenta de novo.");
-            showScene(key);
-            return;
-        }
-
-        if (choice < 0 || choice >= scene.choices.size()) {
-            System.out.println("Opção inválida, seu gênio. Tenta de novo.");
-            showScene(key);
-            return;
-        }
-
-        showScene(scene.choices.get(choice).next);
-    }
-
-    static void askRestart() {
-        System.out.print("\nJogar de novo? (s/n): ");
-        String ans = sc.nextLine().trim().toLowerCase();
-        if (ans.equals("s")) {
-            hp = 100;
-            force = 0;
-            location = "Tatooine";
-            gameOver = false;
-            System.out.println("\n=== STAR WARS - AVENTURA EM JAVA (versão irritada) ===\n");
-            showScene("start");
-        } else {
-            System.out.println("\nFinalmente. Sai daqui.");
-            sc.close();
-            System.exit(0);
-        }
-    }
-
-    public static void main(String[] args) {
-        buildStory();
-        System.out.println("=== STAR WARS - AVENTURA EM JAVA ===");
-        System.out.println("Feito com ódio. Roda no terminal. Não pede mais versão.\n");
-        showScene("start");
-    }
+function log(msg, type = "") {
+  const box = document.getElementById("log");
+  const div = document.createElement("div");
+  div.className = "entry " + type;
+  div.textContent = "[LOG] " + msg;
+  box.prepend(div);
+  if (box.children.length > 8) box.removeChild(box.lastChild);
 }
+
+function updateHUD() {
+  document.getElementById("hpBar").style.width = Math.max(0, hp) + "%";
+  document.getElementById("hpText").textContent = Math.max(0, hp) + " / 100";
+  const fPct = Math.min(100, force);
+  document.getElementById("forceBar").style.width = fPct + "%";
+  document.getElementById("forceText").textContent = force;
+  document.getElementById("location").textContent = location;
+  document.getElementById("rank").textContent = rank;
+}
+
+function showScene(key) {
+  const scene = story[key];
+  if (!scene) {
+    document.getElementById("story").textContent = "Cena inexistente. Bug do programador.";
+    return;
+  }
+
+  const game = document.getElementById("game");
+  game.classList.remove("death", "win");
+
+  location = scene.location || location;
+  rank = scene.rank || rank;
+  if (scene.force) force += scene.force;
+  updateHUD();
+
+  document.getElementById("story").textContent = scene.text;
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
+  document.getElementById("restart").style.display = "none";
+
+  if (scene.death) {
+    game.classList.add("death");
+    document.getElementById("story").textContent += "\n\n*** VOCÊ MORREU. QUE SURPRESA. ***";
+    document.getElementById("restart").style.display = "block";
+    log("Unidade eliminada.", "danger");
+    return;
+  }
+
+  if (scene.win) {
+    game.classList.add("win");
+    document.getElementById("story").textContent += "\n\n*** VOCÊ VENCEU. ACHO QUE. ***";
+    document.getElementById("restart").style.display = "block";
+    log("Missão concluída com sucesso.", "success");
+    return;
+  }
+
+  if (scene.special === "checkForce") {
+    if (force >= 30) {
+      game.classList.add("win");
+      document.getElementById("story").textContent += "\n\nSua Força é suficiente. Tropas caem. Vocês escapam. A Estrela da Morte explode.\n\n*** VITÓRIA ***";
+      log("Força dominada. Vitória.", "success");
+    } else {
+      game.classList.add("death");
+      document.getElementById("story").textContent += "\n\nSua Força é fraca demais. Um trooper te atira na cara.\n\n*** VOCÊ MORREU. ***";
+      log("Força insuficiente. Eliminado.", "danger");
+    }
+    document.getElementById("restart").style.display = "block";
+    return;
+  }
+
+  scene.choices.forEach(c => {
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.textContent = "▸ " + c.text;
+    btn.onclick = () => {
+      log("Escolha: " + c.text);
+      showScene(c.next);
+    };
+    choicesDiv.appendChild(btn);
+  });
+}
+
+function startGame() {
+  hp = 100;
+  force = 0;
+  location = "Tatooine";
+  rank = "Farmboy";
+  document.getElementById("log").innerHTML = '<div class="entry">[SISTEMA] HUD tático reiniciado.</div>';
+  updateHUD();
+  showScene("start");
+}
+
+startGame();
